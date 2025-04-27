@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プレイヤー検索</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { margin-top: 20px; }
+        .player { margin-bottom: 10px; }
+    </style>
+    <link rel="icon" href="./gold_pickaxe.png" type="image/png">
+</head>
+<body>
+    <h1>プレイヤー検索</h1>
+    <form id="searchForm">
+        <input type="text" id="playerName" placeholder="プレイヤー名を入力" required />
+        <button type="submit">検索</button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const playerName = document.getElementById('playerName').value;
+        const response = await fetch(`/players`);
+        const players = await response.json();
+
+        const player = players.find(p => p.playerName === playerName);
+
+        if (player) {
+            // 検索に成功 → player_details.html に遷移（GETパラメータ付き）
+            location.href = `/public/player_details.html?name=${encodeURIComponent(player.playerName)}`;
+        } else {
+            // 見つからなかった場合の表示
+            document.getElementById('result').innerHTML = `<p>プレイヤーが見つかりませんでした。</p>`;
+        }
+    });
+    </script>
+</body>
+</html>

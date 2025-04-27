@@ -1,0 +1,122 @@
+<body>
+    <div class="navbar">
+        <div class="nav-logo">
+            <img src="./title.png" alt="MineSrvロゴ">
+        </div>
+        <div class="nav-links">
+            <a href="./index.html">ホーム</a>
+            <a href="./search.html">プレイヤー検索</a>
+            <a href="./ranking.html">ランキング</a>
+        </div>
+    </div>
+    <main class="content">
+        <h1>プレイヤー情報</h1>
+        <div class="player-card" id="playerDetails"></div>
+    </main>
+    <style>
+        body{
+            margin: 0;
+            padding-top: 60px;
+            min-height: 100vh;
+            background: url("./1.png") center/cover no-repeat;
+            background-color: rgba(255, 255, 255, 0.5);
+            background-blend-mode: overlay;
+            font-family: "Segoe UI", sans-serif;
+        }
+        .navbar{
+            width: 100%;
+            height: 60px; /* ここを60pxから70pxにする */
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .nav-logo img{
+            height: 40px;
+        }
+        .nav-links{
+            display: flex;
+            align-items: center;
+            justify-content: center;  /* 中央に配置 */
+            width: 100%;  /* 幅を100%にして中央に配置 */
+        }
+        .nav-links a{
+            color: white;
+            margin-left: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            white-space: nowrap;  /* テキストを折り返さない */
+            text-overflow: ellipsis; /* 長すぎる場合は...を表示 */
+        }
+        .nav-links a:hover{
+            text-decoration: underline;
+        }
+        main.content{
+            padding: 30px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .player-card{
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .player-card p, .player-card li{
+            margin: 10px 0;
+        }
+        .player-card ul{
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        async function loadPlayerData(){
+            const params = new URLSearchParams(window.location.search);
+            const name = params.get("name");
+            if(!name){
+                document.getElementById("playerDetails").textContent = "プレイヤー名が指定されていません。";
+                return;
+            }
+            try{
+                const res = await fetch("http://192.168.11.50:3000/players");
+                const players = await res.json();
+                const player = players.find(p => p.playerName.toLowerCase() === name.toLowerCase());
+                const playerDetailsDiv = document.getElementById('playerDetails');
+                if(!player){
+                    playerDetailsDiv.innerHTML = `<p>プレイヤー "${name}" は見つかりませんでした。</p>`;
+                    return;
+                }
+                playerDetailsDiv.innerHTML = `
+                    <p><strong>プレイヤー名:</strong> ${player.playerName}</p>
+                    <p><strong>ランク:</strong> ${player.rank}</p>
+                    <p><strong>クエストランク:</strong> ${player.quest_rank}</p>
+                    <p><strong>ログイン連続日数:</strong> ${player.loginstreak}</p>
+                    <h3>スコア</h3>
+                    <ul>
+                        <li>お金: ${player.score.money}</li>
+                        <li>レベル: ${player.score.level}</li>
+                        <li>採掘回数: ${player.score.all_mining}</li>
+                        <li>使用したお金: ${player.score.use_money}</li>
+                        <li>クエストポイント: ${player.score.quest_point}</li>
+                    </ul>
+                `;
+            }catch(err){
+                console.error("データ取得エラー:", err);
+                document.getElementById("playerDetails").textContent = "データ取得中にエラーが発生しました。";
+            }
+        }
+        loadPlayerData();
+    </script>
+</body>
