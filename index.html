@@ -98,6 +98,7 @@
                     playerDetailsDiv.innerHTML = `<p>プレイヤー "${name}" は見つかりませんでした。</p>`;
                     return;
                 }
+                window.alart(JSON.stringify(player));
                 playerDetailsDiv.innerHTML = `
                     <p><strong>プレイヤー名:</strong> ${player.playerName}</p>
                     <p><strong>ランク:</strong> ${player.rank}</p>
