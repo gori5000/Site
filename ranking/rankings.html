@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>MineSrv - ランキング</title>
+  <link rel="icon" href="../gold_pickaxe.png" type="image/png" />
+  <link rel="stylesheet" href="./rankings.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="navbar">
+    <div class="nav-logo">
+      <img src="../title.png" alt="MineSrvロゴ" />
+    </div>
+    <div class="nav-links">
+      <a href="../index.html">ホーム</a>
+      <a href="../terms.html">利用規約・ルール</a>
+      <a href="../search.html">プレイヤー検索</a>
+      <a href="../ranking.html">ランキング</a>
+      <a href="../overview.html">サーバー概要</a>
+    </div>
+  </div>
+  <main>
+    <div class="player-card" id="playerDetails"></div>
+  </main>
+  <script>
+    async function getSend(){
+      let html = "";
+      try{
+        const params = new URLSearchParams(window.location.search);
+        const parseName = params.get("type");
+        const rankColors = {
+          "Owner": "#ff0000",
+          "Admin": "#1ABC90",
+          "Moderator": "#6E3680",
+          "OP": "#2ECC70",
+          "Manager": "#C27C00",
+          "Helper": "#992D20",
+          "Staff": "#0019ff",
+          "Platinum": "#009bff",
+          "Gold": "#e1a200",
+          "Silver": "#5986a2",
+          "Bronze": "#d46036",
+          "Regular": "#607D80",
+          "Player": "#95A5A0"
+        };
+        const res = await fetch("http://192.168.11.50:3000/players");
+        const players = await res.json();
+        const top100 = players.sort((x, y) => (y.score?.[parseName] || 0) - (x.score?.[parseName] || 0)).slice(0, 100);
+        for(let number=0;number<top100.length;number++){
+          const player = top100[number];
+          const rankColor = rankColors[player.rank]||"#aaaaaa";
+          html += `${number + 1}位: <a href="../player_details.html?name=${player.playerName}" style="text-decoration: none;"><span style="color: ${rankColor}; font-weight: bold;">[<img src="../${player.rank}.png" alt="${player.rank}" style="height: 20px; vertical-align: text-bottom;">]${player.playerName}</span></a> - <span style="color: #55ff55; font-weight: bold;">${player.score?.[parseName] ?? 0}</span> ${parseName}<br>`;
+        }
+      }catch(e){
+        html = "DB鯖がオフラインの為取得できませんでした。";
+      }
+      document.getElementById("playerDetails").innerHTML = html;
+    }
+    getSend();
+  </script>
+</body>
+</html>

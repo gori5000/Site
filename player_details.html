@@ -1,3 +1,6 @@
+<head>
+    <link rel="icon" href="./gold_pickaxe.png" type="image/png" />
+</head>
 <body>
     <div class="navbar">
         <div class="nav-logo">
@@ -13,6 +16,10 @@
         <h1>プレイヤー情報</h1>
         <div class="player-card" id="playerDetails"></div>
     </main>
+    <head>
+        <link rel="icon" href="./gold_pickaxe.png" type="image/png">
+        <title>MineSrv - プレイヤー情報</title>
+    </head>
     <style>
         body{
             margin: 0;
@@ -94,27 +101,64 @@
                 const players = await res.json();
                 const player = players.find(p => p.playerName.toLowerCase() === name.toLowerCase());
                 const playerDetailsDiv = document.getElementById('playerDetails');
+                const rankColors = {
+                    "Owner": "#ff0000",
+                    "Admin": "#1ABC90",
+                    "Moderator": "#6E3680",
+                    "OP": "#2ECC70",
+                    "Manager": "#C27C00",
+                    "Helper": "#992D20",
+                    "Staff": "#0019ff",
+                    "Platinum": "#009bff",
+                    "Gold": "#e1a200",
+                    "Silver": "#5986a2",
+                    "Bronze": "#d46036",
+                    "Regular": "#607D80",
+                    "Player": "#95A5A0"
+                };
+                const rankColor = rankColors[player.rank] || "#000";
                 if(!player){
                     playerDetailsDiv.innerHTML = `<p>プレイヤー "${name}" は見つかりませんでした。</p>`;
                     return;
                 }
+                const gs = '<span style="color: #55ff55; font-weight: bold;">';
+                const bs = '<span style="color: #5555ff; font-weight: bold;">';
+                const rs = '<span style="color: #FF5555; font-weight: bold;">'
+                const s = '</span>'
+                const nameTagTemplates = {
+                    "所持金": `<img src="./gold_ingot.png"> ${gs}${player.score.money}${s}`,
+                    "レベル": `<img src="./experience_bottle.png"> ${gs}${player.score.level}${s}`,
+                    "総採掘数": `<img src="./gold_pickaxe.png"> ${gs}${player.score.all_mining}${s}`,
+                    "実績": `<img src="./potion_bottle_poison.png"> ${gs}${player.score.achievement}${s}`,
+                    "自分のランク": `<span style="color: ${rankColor}; font-weight: bold;">${player.rank}${s} RANK`,
+                    "The STAFF!": `The ${bs}STAFF${s}!`,
+                    "破壊者！": `${rs}Destroyer${s}!`,
+                    "クエストポイント": `<img src="./quest.png"> ${gs}${player.score.quest_point}${s}`
+                };
+                const nametag = nameTagTemplates[player.nametag] ?? player.nametag;
                 playerDetailsDiv.innerHTML = `
-                    <p><strong>プレイヤー名:</strong> ${player.playerName}</p>
-                    <p><strong>ランク:</strong> ${player.rank}</p>
+                    <p><strong>プレイヤー名:</strong>
+                        <span style="color: ${rankColor}; font-weight: bold;">
+                        [<img src="./${player.rank}.png" alt="${player.rank}" style="height: 20px; vertical-align: middle;">]
+                        ${player.playerName}
+                        </span>
+                        <br>
+                        <strong>ネームタグ:</strong> ${nametag??"なし"}
+                    </p>
+                    <p><strong>ランク:</strong> <span style="color: ${rankColor}; font-weight: bold;">[<img src="./${player.rank}.png" alt="${player.rank}" style="height: 20px; vertical-align: middle;">] ${player.rank}</p>
                     <p><strong>クエストランク:</strong> ${player.quest_rank}</p>
-                    <p><strong>ログイン連続日数:</strong> ${player.loginstreak}</p>
+                    <p><strong>ログイン連続日数:</strong> ${gs}${player.loginstreak}${s}</p>
                     <h3>スコア</h3>
                     <ul>
-                        <li>お金: ${player.score.money}</li>
-                        <li>レベル: ${player.score.level}</li>
-                        <li>採掘回数: ${player.score.all_mining}</li>
-                        <li>使用したお金: ${player.score.use_money}</li>
-                        <li>クエストポイント: ${player.score.quest_point}</li>
+                        <li>お金: ${gs}${player.score.money}${s}</li>
+                        <li>レベル: ${gs}${player.score.level}${s}</li>
+                        <li>採掘回数: ${gs}${player.score.all_mining}${s}</li>
+                        <li>使用したお金: ${gs}${player.score.use_money}${s}</li>
+                        <li>クエストポイント: ${gs}${player.score.quest_point}${s}</li>
                     </ul>
                 `;
             }catch(err){
-                console.error("データ取得エラー:", err);
-                document.getElementById("playerDetails").textContent = "データ取得中にエラーが発生しました。";
+                document.getElementById("playerDetails").textContent = "DB鯖がオフラインの為取得できませんでした。";
             }
         }
         loadPlayerData();

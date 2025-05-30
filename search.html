@@ -1,43 +1,114 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プレイヤー検索</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MineSrv - プレイヤー検索</title>
+    <link rel="icon" href="./gold_pickaxe.png" type="image/png" />
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .result { margin-top: 20px; }
-        .player { margin-bottom: 10px; }
+      body{
+        margin: 0;
+        padding-top: 60px;
+        min-height: 100vh;
+        background: url("./3.png") center/cover no-repeat;
+        background-color: rgba(255, 255, 255, 0.5);
+        background-blend-mode: overlay;
+        font-family: "Segoe UI", sans-serif;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .navbar{
+        width: 100%;
+        height: 60px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+      }
+      .nav-logo img{
+        height: 40px;
+      }
+      .nav-links{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+      .nav-links a{
+        color: white;
+        margin-left: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 16px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .nav-links a:hover{
+        text-decoration: underline;
+      }
+      h1{
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .result{
+        margin-top: 20px;
+      }
+      .player-card{
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .player-card p,
+      .player-card li{
+        margin: 10px 0;
+      }
+      .player-card ul{
+        padding-left: 20px;
+        margin-top: 10px;
+      }
     </style>
-    <link rel="icon" href="./gold_pickaxe.png" type="image/png">
-</head>
-<body>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="nav-logo">
+        <img src="./title.png" alt="MineSrvロゴ" />
+      </div>
+      <div class="nav-links">
+        <a href="./index.html">ホーム</a>
+        <a href="./terms.html">利用規約・ルール</a>
+        <a href="./overview.html">サーバー概要</a>
+        <a href="./ranking.html">ランキング</a>
+      </div>
+    </div>
+
     <h1>プレイヤー検索</h1>
     <form id="searchForm">
-        <input type="text" id="playerName" placeholder="プレイヤー名を入力" required />
-        <button type="submit">検索</button>
+      <input type="text" id="playerName" placeholder="プレイヤー名を入力" required />
+      <button type="submit">検索</button>
     </form>
 
     <div class="result" id="result"></div>
 
     <script>
-        document.getElementById('searchForm').addEventListener('submit', async (event) => {
+      document.getElementById("searchForm").addEventListener("submit", async (event) => {
         event.preventDefault();
-
-        const playerName = document.getElementById('playerName').value;
-        const response = await fetch(`/players`);
-        const players = await response.json();
-
-        const player = players.find(p => p.playerName === playerName);
-
-        if (player) {
-            // 検索に成功 → player_details.html に遷移（GETパラメータ付き）
-            location.href = `/public/player_details.html?name=${encodeURIComponent(player.playerName)}`;
-        } else {
-            // 見つからなかった場合の表示
-            document.getElementById('result').innerHTML = `<p>プレイヤーが見つかりませんでした。</p>`;
-        }
-    });
+        const playerName = document.getElementById("playerName").value;
+        if (!playerName) return;
+        location.href = `./player_details.html?name=${encodeURIComponent(playerName)}`;
+      });
     </script>
-</body>
+  </body>
 </html>

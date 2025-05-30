@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>MineSrv - ランキング</title>
+  <style>
+    body{
+      margin: 0;
+      padding-top: 60px;
+      min-height: 100vh;
+      background: url("./5.png") center/cover no-repeat;
+      background-color: rgba(255, 255, 255, 0.5);
+      background-blend-mode: overlay;
+      font-family: "Segoe UI", sans-serif;
+    }
+    .navbar{
+      width: 100%;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+    .nav-logo img{
+      height: 40px;
+    }
+    .nav-links{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .nav-links a{
+      color: white;
+      margin-left: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .nav-links a:hover{
+      text-decoration: underline;
+    }
+    main{
+      max-width: 800px;
+      margin: 80px auto 40px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+    h1{
+      margin-bottom: 10px;
+    }
+    p{
+      font-size: 18px;
+      color: #333;
+    }
+    .button-row {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .stat-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 120px;
+      height: 120px;
+      background-color: #2c2f33;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+      text-align: center;
+    }
+
+    .stat-button:hover {
+      transform: scale(1.05);
+    }
+
+    .stat-button img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+    }
+
+    .stat-button span {
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    <div class="navbar">
+      <div class="nav-logo">
+        <img src="./title.png" alt="MineSrvロゴ" />
+      </div>
+      <div class="nav-links">
+        <a href="./index.html">ホーム</a>
+        <a href="./terms.html">利用規約・ルール</a>
+        <a href="./search.html">プレイヤー検索</a>
+        <a href="./overview.html">サーバー概要</a>
+      </div>
+  </div>
+  <main>
+    <div class="button-row">
+      <a href="./ranking/rankings.html?type=money" class="stat-button">
+        <img src="https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/items/gold_ingot.png" alt="お金" />
+        <span>お金</span>
+      </a>
+      <a href="./ranking/rankings.html?type=level" class="stat-button">
+        <img src="https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/items/experience_bottle.png" alt="レベル" />
+        <span>レベル</span>
+      </a>
+      <a href="./ranking/rankings.html?type=all_mining" class="stat-button">
+        <img src="https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/items/gold_pickaxe.png" alt="総採掘数" />
+        <span>総採掘数</span>
+      </a>
+      <a href="./ranking/rankings.html?type=use_money" class="stat-button">
+        <img src="https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/items/emerald.png" alt="総採掘数" />
+        <span>使用したお金</span>
+      </a>
+      <a href="./ranking/rankings.html?type=quest_point" class="stat-button">
+        <img src="./quest.png" alt="総採掘数" />
+        <span>クエストポイント</span>
+      </a>
+    </div>
+  </main>
+  
+</body>
+</html>

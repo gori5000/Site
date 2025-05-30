@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MineSrv - サーバー概要</title>
+  <link rel="icon" href="./gold_pickaxe.png" type="image/png" />
+  <link rel="stylesheet" href="./overview.css" />
+  <script src="./marked.min.js"></script>
+</head>
+<body>
+  <h1>サーバー概要</h1>
+  <div id="content"></div>
+  <div class="navbar">
+      <div class="nav-logo">
+        <img src="./title.png" alt="MineSrvロゴ" />
+      </div>
+      <div class="nav-links">
+        <a href="./index.html">ホーム</a>
+        <a href="./terms.html">利用規約・ルール</a>
+        <a href="./search.html">プレイヤー検索</a>
+        <a href="./ranking.html">ランキング</a>
+      </div>
+  </div>
+  <script>
+    const markdown = `
+# MineSrv
+
+MineSrvとは2024/01/02に開発が始まった採掘鯖です。今編集してる2025/04/23でもサーバーに参加しようと思えばできますが、まだ開発中です。そしてこの鯖には次のような機能があります。
+
+![](https://raw.githubusercontent.com/MineSrv-MC/.github/main/image/title.png)
+## リンク一覧
+[MineSrv Wiki](https://github.com/gori5000/MineSrv-Wiki/blob/main/README.md)
+
+[利用規約とルール](https://github.com/MineSrv-MC/.github/blob/main/profile/%E5%88%A9%E7%94%A8%E8%A6%8F%E7%B4%84.md)
+
+## ギルド
+
+ギルドとは、プレイヤーがグループのようなものを作って、そこに何人も所属できるシステムです。ギルドごとに専用のデータや、戦績、ランキング、ギルドチャットなどもできるようにする予定です。
+
+## フレンド
+
+フレンド機能では、他のプレイヤーを登録してオンライン状態を確認したりできます。将来的にはメッセージ送信や招待機能も追加予定です。
+
+## 採掘レベルと報酬
+
+プレイヤーは採掘を通じてレベルアップします。一定のレベルに到達すると、特別な報酬がもらえるように将来的にします。
+
+## money
+
+MineSrv独自の通貨「money」があり、これを使ってショップでアイテムを購入したり、特殊機能をアンロックすることができます。採掘での納品やクエストポイント交換や実績で入手可能です。
+
+## 今後の予定
+
+- マイ採掘所機能（自分専用の採掘エリア）
+- ギルド対抗の採掘イベント
+- 採掘バフパネル（運営がバフを配布）
+- データ連携やランキングWebサイトの公開
+
+---
+
+//参加方法や詳しい使い方は、公式DiscordまたはWikiをご確認ください！`;
+    document.getElementById("content").innerHTML = marked.parse(markdown);
+  </script>
+</body>
+</html>
